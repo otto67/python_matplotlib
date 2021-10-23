@@ -6,8 +6,7 @@ import scipy.integrate as igr
 from scipy.integrate import odeint, solve_ivp
 
 # A simple function that integrates over an ellipse and an ellipsoid
-# to find their area and volume. Optionally provide an integrand
-
+# to find their area and volume. Also plots the ellipse and ellipsoid
 def integrate(r=3.0, minor=2.0, minor2=1.0):
 
     f = lambda x: x
@@ -20,6 +19,7 @@ def integrate(r=3.0, minor=2.0, minor2=1.0):
 
     area = igr.dblquad(g, -r, r, lim1, lim2)
     volume = igr.tplquad(h, -r, r, lim1, lim2, lim3, lim4)
+
     perimeter = 2*np.pi * r if (r == minor) else np.pi * (3 * (r + minor) - np.sqrt((3 * r + minor) * (r + 3 * minor)))
 
 #    print("Single integral is ", igr.quad(f, 0, 1))
@@ -45,7 +45,6 @@ def integrate(r=3.0, minor=2.0, minor2=1.0):
     mr = max(r, minor)
     ax.set_xlim(-mr, mr)
     ax.set_ylim(-mr, mr)
-
     ax.set_title("Ellipse")
     plt.show()
 
