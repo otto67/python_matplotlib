@@ -17,9 +17,7 @@ def test():
         print("Nooo")
 
 if __name__ == "__main__":
-
-    
-
+    print("Running app")
     exit(0)
     integrate.integrate(2, 1, 1)
 
