@@ -1,0 +1,40 @@
+name: CI/CD test using C++
+on:
+    push:
+      branches: [ master]
+      paths-ignore:
+        - 'app.py'
+    pull_request:
+      branches: [ master ]
+
+jobs:
+  Test-code:
+    name: Testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Run unit tests
+        run: |
+          python -m unittest discover -s unit_test -p unittester.py
+        shell: bash
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: .
+          retention-days: 5
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+  Run-code: # Create job run code just to see how download artifact works
+    name: Running
+    needs: Test-code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: my-artifact
+      - name:
+        run: |
+          python ./app.py
+        shell: bash
